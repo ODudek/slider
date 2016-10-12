@@ -1,0 +1,11 @@
+#slider {
+    background: no-repeat center scroll;
+    background-size: cover;
+    width: 100%;
+    height: 500px;
+}
+
+.image {
+    width: 100%;
+    height: 500px;
+}

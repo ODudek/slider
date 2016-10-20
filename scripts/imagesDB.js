@@ -1,7 +1,7 @@
 (function (root) {
     'use strict';
 
-    root.IMAGE_DATABASE = [
+    root.imageDB = [
         {
             id: 'moje-super-id-kj123kn',
             url: 'images/image1.jpg'

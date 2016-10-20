@@ -5,7 +5,31 @@
     height: 500px;
 }
 
-.image {
+.images {
+    background: no-repeat center;
     width: 100%;
     height: 500px;
+
+}
+
+.arrow {
+    background: yellow;
+    position: absolute;
+    width: 30px;
+    height: 30px;
+    cursor: pointer;
+    margin-top: 240px;
+    z-index: 99;
+    border: 5px;
+    padding: 0;
+
+}
+
+#arrowright {
+    right: 0;
+}
+
+#arrowleft {
+    left: 0;
+
 }

@@ -1,3 +1,6 @@
-'use strict';
+(function (root) {
+    'use strict';
 
-new Slider();
+    new root.Slider();
+
+}(window));

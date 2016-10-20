@@ -1,4 +1,3 @@
-#slider in jquery
+# slider_jquery
 
-Simple slider in jquery
-
+> :ledger: Test application: Simple slider in jQuery lib.

@@ -1,9 +1,9 @@
 # slider_jquery
 
-> :ledger: Test application: Simple slider in jQuery lib.
+> :ledger: Test application: Simple slider.
 
 #TODO:
-- [x] generowanie kropek
-- [ ] przenoszenie do wybranego obrazka przez kropki
-- [ ] animacje
-- [ ] grafiki
+- [x] Generate dots
+- [ ] Move to chosen image by dots
+- [ ] Graphics
+- [ ] Previous button doesn't clear dots 

@@ -1,94 +1,118 @@
-(function (root) {
-    'use strict';
-
-    var images = root.imageDB;
-    var i;
-
-    function Slider() {
-        var slideIndex = 1;
-        var $images = document.getElementsByClassName('images');
-        var $leftArrow = document.getElementById('arrow-left');
-        var $rightArrow = document.getElementById('arrow-right');
-
-        function buildImage(image) {
-            var $image = document.createElement('img');
-            $image.setAttribute('class', 'images');
-            $image.setAttribute('src', image.url);
-            $image.setAttribute('data-id', image.id);
-            return $image;
+function findCurrentPhotoById(images, id) {
+    for (let i = 0; i < images.length; i++) {
+        if (images[i].id == id) {
+            return images[i];
         }
+    }
+}
 
-        function setupImages() {
-            var $slider = document.getElementById('slider');
-
-            for (i = 0; i < images.length; i++) {
-                var $image = buildImage(images[i]);
-                $slider.appendChild($image);
-            }
-        }
-
-        function displayImage(number) {
-            if (number > $images.length) {
-                slideIndex = 1;
-            }
-
-            if (number < 1) {
-                slideIndex = $images.length;
-            }
-
-            for (i = 0; i < $images.length; i++) {
-                var $image = $images[i];
-                $image.style.display = 'none';
-            }
-
-            var $lastImage = $images[slideIndex - 1];
-            $lastImage.style.display = 'block';
-        }
-
-        function move(direction) {
-            displayImage(slideIndex += direction);
-            console.log('it works!');
-        }
-
-        function defineClickHandlers() {
-            $leftArrow.addEventListener('click', move.bind(this, -1));
-            $rightArrow.addEventListener('click', move.bind(this, 1));
-        }
-
-        setupImages();
-        defineClickHandlers();
+class Slider {
+    constructor() {
+        this.images = [];
+        this.currentPhotoId = 0;
+        this.buildImagesArray();
+        this.setupClickListeners();
+        this.buildImgInHtml();
+        this.buildDotsInHtml();
     }
 
-    function Dots() {
-        var $dots = document.querySelector('#dots');
-
-        function buildDots(dots) {
-            var $dots = document.createElement('input');
-            $dots.setAttribute('class', 'dots');
-            $dots.setAttribute('type', 'button');
-            $dots.setAttribute('data-id', dots);
-            return $dots;
+    buildImgInHtml() {
+        let $slider = document.getElementById('slider');
+        for (let i = 0; i < 3; i++) {
+            let $img = document.createElement('img');
+            $img.setAttribute('src', this.images[i].src);
+            $slider.appendChild($img);
         }
-
-        function setupDots() {
-            for(i = 0; i < images.length; i++){
-                var $dot = buildDots(i);
-                $dots.appendChild($dot);
-            }
-        }
-
-        function selectedDots() {
-
-        }
-
-        function displayDots() {
-            setupDots();
-            selectedDots();
-        }
-
-        displayDots();
     }
 
-    root.Dots = Dots;
-    root.Slider = Slider;
-}(window));
+    buildDotsInHtml() {
+        let $dots = document.getElementById('dots');
+        for (let i = 0; i < 3; i++) {
+            let $dot = document.createElement('nav');
+            $dot.setAttribute('class', '');
+            $dot.setAttribute('id', i);
+            $dot.setAttribute('alt', 'Image' + i);
+            $dots.appendChild($dot);
+        }
+    }
+
+    buildImagesArray() {
+        for (let i = 0; i < 3; i++) {
+            this.images.push({
+                id: i,
+                src: './images/image' + i + '.png'
+            });
+        }
+    }
+
+    setupClickListeners() {
+        let $previousButton = document.getElementById('arrow-left');
+        let $nextButton = document.getElementById('arrow-right');
+        $previousButton.addEventListener('click', () => {
+            this.clickHandler('prev');
+            this.displayCurrentPhoto();
+        });
+        $nextButton.addEventListener('click', () => {
+            this.clickHandler('next');
+            this.displayCurrentPhoto();
+        });
+        let $dots = document.querySelector('#dots');
+        $dots.addEventListener('click', (e) => {
+            this.currentPhotoId = e.target.id;
+            this.displayCurrentPhoto();
+            this.selectedDot();
+        })
+    }
+
+    displayCurrentPhoto() {
+        let currentArrayPhoto = findCurrentPhotoById(this.images, this.currentPhotoId);
+        let $currentPhoto = document.querySelector('img');
+        $currentPhoto.src = currentArrayPhoto.src;
+    }
+
+    clickHandler(value) {
+        switch (value) {
+            case 'next':
+                if (this.currentPhotoId >= (this.images.length - 1)) {
+                    this.currentPhotoId = 2;
+                } else {
+                    this.currentPhotoId++;
+                }
+                break;
+            case 'prev':
+                if (this.currentPhotoId <= 0) {
+                    this.currentPhotoId = 0;
+                } else {
+                    this.currentPhotoId--;
+                }
+                break;
+            default:
+        }
+        this.selectedDot(this.currentPhotoId);
+    }
+
+    selectedDot(id) {
+        let $dots = document.querySelectorAll('nav');
+        let $currentDot = $dots.item(this.currentPhotoId);
+        if (id == this.currentPhotoId) {
+            $currentDot.className = 'active-dot';
+            this.clearSelectedDots();
+        }
+    }
+
+    clearSelectedDots() {
+        for (let i = 0; i != this.currentPhotoId; i++) {
+            let $restOfDots = document.getElementById(i);
+            $restOfDots.className = '';
+        }
+        for (let j = 4; j != this.currentPhotoId; j--) {
+            let $restOfDots = document.getElementById(j);
+            $restOfDots.className = '';
+        }
+    }
+
+}
+
+document.addEventListener('DOMContentLoaded', function () {
+    let slider = new Slider();
+});

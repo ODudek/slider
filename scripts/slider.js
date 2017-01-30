@@ -10,6 +10,7 @@ class Slider {
     constructor() {
         this.images = [];
         this.currentPhotoId = 0;
+        this.currentDot = 0;
         this.buildImagesArray();
         this.setupClickListeners();
         this.buildImgInHtml();
@@ -29,7 +30,11 @@ class Slider {
         let $dots = document.getElementById('dots');
         for (let i = 0; i < 3; i++) {
             let $dot = document.createElement('nav');
-            $dot.setAttribute('class', '');
+            if (i == 0) {
+                $dot.setAttribute('class', 'active-dot');
+            } else {
+                $dot.setAttribute('class', '');
+            }
             $dot.setAttribute('id', i);
             $dot.setAttribute('alt', 'Image' + i);
             $dots.appendChild($dot);
@@ -48,19 +53,28 @@ class Slider {
     setupClickListeners() {
         let $previousButton = document.getElementById('arrow-left');
         let $nextButton = document.getElementById('arrow-right');
+        let $dots = document.querySelector('#dots');
+
         $previousButton.addEventListener('click', () => {
             this.clickHandler('prev');
+            this.clearSelectedDots();
+            this.selectedDot(this.currentDot);
             this.displayCurrentPhoto();
         });
+
         $nextButton.addEventListener('click', () => {
             this.clickHandler('next');
+            this.clearSelectedDots();
+            this.selectedDot(this.currentDot);
             this.displayCurrentPhoto();
         });
-        let $dots = document.querySelector('#dots');
+
         $dots.addEventListener('click', (e) => {
             this.currentPhotoId = e.target.id;
+            this.currentDot = e.target.id;
+            this.clearSelectedDots();
+            this.selectedDot(this.currentDot);
             this.displayCurrentPhoto();
-            this.selectedDot();
         })
     }
 
@@ -70,33 +84,15 @@ class Slider {
         $currentPhoto.src = currentArrayPhoto.src;
     }
 
-    clickHandler(value) {
-        switch (value) {
-            case 'next':
-                if (this.currentPhotoId >= (this.images.length - 1)) {
-                    this.currentPhotoId = 2;
-                } else {
-                    this.currentPhotoId++;
-                }
-                break;
-            case 'prev':
-                if (this.currentPhotoId <= 0) {
-                    this.currentPhotoId = 0;
-                } else {
-                    this.currentPhotoId--;
-                }
-                break;
-            default:
-        }
-        this.selectedDot(this.currentPhotoId);
-    }
-
     selectedDot(id) {
-        let $dots = document.querySelectorAll('nav');
-        let $currentDot = $dots.item(this.currentPhotoId);
-        if (id == this.currentPhotoId) {
-            $currentDot.className = 'active-dot';
-            this.clearSelectedDots();
+        let dot = document.getElementById(id);
+        for (let i = 0; i < 3; i++) {
+            if (id != this.currentDot) {
+                dot.className = '';
+                console.log('dziala');
+            } else {
+                dot.className = 'active-dot';
+            }
         }
     }
 
@@ -105,12 +101,37 @@ class Slider {
             let $restOfDots = document.getElementById(i);
             $restOfDots.className = '';
         }
-        for (let j = 4; j != this.currentPhotoId; j--) {
+        for (let j = 2; j != this.currentPhotoId; j--) {
             let $restOfDots = document.getElementById(j);
             $restOfDots.className = '';
         }
     }
 
+    clickHandler(value) {
+        switch (value) {
+            case 'next':
+                if (this.currentPhotoId >= (this.images.length - 1)) {
+                    this.currentPhotoId = 0;
+                    this.currentDot = 0;
+
+                } else {
+                    this.currentPhotoId++;
+                    this.currentDot++;
+                }
+                break;
+            case 'prev':
+                if (this.currentPhotoId <= 0) {
+                    this.currentPhotoId = 2;
+                    this.currentDot = 2;
+
+                } else {
+                    this.currentPhotoId--;
+                    this.currentDot--;
+                }
+                break;
+            default:
+        }
+    }
 }
 
 document.addEventListener('DOMContentLoaded', function () {

@@ -14,7 +14,6 @@ body {
 }
 
 .arrow {
-    background: yellow;
     position: absolute;
     width: 30px;
     height: 30px;
@@ -25,10 +24,12 @@ body {
 }
 
 #arrow-right {
+    background: url("../images/arrow-right.png");
     right: 0;
 }
 
 #arrow-left {
+    background: url("../images/arrow-left.png");
     left: 0;
 }
 
@@ -40,7 +41,7 @@ nav {
     margin-left: 5px;
     background: red;
     padding: 0;
-    border: 0;
+    border-radius: 10px;
     flex-direction: row;
 }
 

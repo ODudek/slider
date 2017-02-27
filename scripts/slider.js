@@ -1,3 +1,4 @@
+require ('../styles/style.css');
 function findCurrentPhotoById(images, id) {
     for (let i = 0; i < images.length; i++) {
         if (images[i].id == id) {

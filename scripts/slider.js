@@ -1,4 +1,4 @@
-require ('../styles/style.css');
+require('../styles/style.css');
 function findCurrentPhotoById(images, id) {
     for (let i = 0; i < images.length; i++) {
         if (images[i].id == id) {
@@ -56,6 +56,22 @@ class Slider {
         let $nextButton = document.getElementById('arrow-right');
         let $dots = document.querySelector('#dots');
 
+        window.addEventListener('keydown', (e) => {
+            switch (e.keyCode) {
+                case 37:
+                    this.clickHandler('prev');
+                    this.clearSelectedDots();
+                    this.selectedDot(this.currentDot);
+                    this.displayCurrentPhoto();
+                    break;
+                case 39:
+                    this.clickHandler('next');
+                    this.clearSelectedDots();
+                    this.selectedDot(this.currentDot);
+                    this.displayCurrentPhoto();
+                    break;
+            }
+        });
         $previousButton.addEventListener('click', () => {
             this.clickHandler('prev');
             this.clearSelectedDots();

@@ -59,31 +59,19 @@ class Slider {
         window.addEventListener('keydown', (e) => {
             switch (e.keyCode) {
                 case 37:
-                    this.clickHandler('prev');
-                    this.clearSelectedDots();
-                    this.selectedDot(this.currentDot);
-                    this.displayCurrentPhoto();
+                    this.setupClicker('prev');
                     break;
                 case 39:
-                    this.clickHandler('next');
-                    this.clearSelectedDots();
-                    this.selectedDot(this.currentDot);
-                    this.displayCurrentPhoto();
+                    this.setupClicker('next');
                     break;
             }
         });
         $previousButton.addEventListener('click', () => {
-            this.clickHandler('prev');
-            this.clearSelectedDots();
-            this.selectedDot(this.currentDot);
-            this.displayCurrentPhoto();
+            this.setupClicker('prev');
         });
 
         $nextButton.addEventListener('click', () => {
-            this.clickHandler('next');
-            this.clearSelectedDots();
-            this.selectedDot(this.currentDot);
-            this.displayCurrentPhoto();
+            this.setupClicker('next');
         });
 
         $dots.addEventListener('click', (e) => {
@@ -93,6 +81,13 @@ class Slider {
             this.selectedDot(this.currentDot);
             this.displayCurrentPhoto();
         })
+    }
+
+    setupClicker(element) {
+        this.clickHandler(element);
+        this.clearSelectedDots();
+        this.selectedDot(this.currentDot);
+        this.displayCurrentPhoto();
     }
 
     displayCurrentPhoto() {
